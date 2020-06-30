@@ -2,10 +2,10 @@
 ##########
 # レポジトリを日本に切り替える
 ##########
-sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/linuxmint/packages tricia main upstream import backport" >> /etc/apt/sources.list.d/official-package-repositories.list
-sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu bionic main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
-sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
-sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
+sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/linuxmint/packages ulyana main upstream import backport" >> /etc/apt/sources.list.d/official-package-repositories.list
+sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu focal main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
+sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu focal-updates main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
+sudo echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu focal-backports main restricted universe multiverse" >> /etc/apt/sources.list.d/official-package-repositories.list
 sudo sed -i -e "/http:\/\/packages.linuxmint.com\/s/^/#/"
 sudo sed -i -e "/http:\/\/archive.ubuntu.com/ubuntu\/s/^/#/g"
 
@@ -29,7 +29,8 @@ LANG=C xdg-user-dirs-gtk-update
 # トラックパッドの設定
 #########
 # Synaptics Driverをインストール
-sudo apt install xserver-xorg-input-synaptics-hwe-18.04
+#sudo apt install xserver-xorg-input-synaptics-hwe-18.04
+apt install xserver-xorg-input-synaptics
 
 # xinput設定（トラックパッドの感度を下げる）
 echo "# Touchpad Speed Configuration" >> ~/.xinputrc
