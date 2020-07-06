@@ -112,7 +112,8 @@ sudo apt install -y iptables-persistent
 wget "https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.3-amd64.deb" && sudo dpkg -i ./slack-desktop-4.4.3-amd64.deb && rm slack-desktop-4.4.3-amd64.deb
 
 # Atom
-sudo add-apt-repository ppa:webupd8team/atom && sudo apt-get update && sudo apt-get install -y atom
+#sudo add-apt-repository ppa:webupd8team/atom && sudo apt-get update && sudo apt-get install -y atom
+wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add - && sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list' && sudo apt update && sudo apt install -y atom
 
 # GitHub Desktop
 wget "https://github.com/shiftkey/desktop/releases/download/release-2.5.2-linux1/GitHubDesktop-linux-2.5.2-linux1.deb" && sudo dpkg -i GitHubDesktop-linux-2.5.2-linux1.deb && rm GitHubDesktop-linux-2.5.2-linux1.deb
