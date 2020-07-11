@@ -136,6 +136,13 @@ wget "https://github.com/shiftkey/desktop/releases/download/release-2.5.2-linux1
 sudo apt-get --fix-broken install
 
 ##########
+# google Drive 認証
+##########
+google-drive-ocamlfuse
+mkdir ~/GooglDrive
+echo -e "# Mount Google Drive to HOME directory.\ngoogle-drive-ocamlfuse ~/GoogleDrive" >> ~/.profile
+
+##########
 # 開発環境インストール
 ##########
 # python3
