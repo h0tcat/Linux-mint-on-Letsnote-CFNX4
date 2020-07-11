@@ -106,6 +106,15 @@ sudo apt install -y hardinfo
 # iptables
 sudo apt install -y iptables-persistent
 
+# KeePassXC
+sudo add-apt-repository ppa:phoerious/keepassxc
+sudo apt update && sudo apt install -y keepassxc
+
+# VirtualBox
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+sudo apt update && sudo apt install virtualbox-6.0
+
 # Slack
 wget "https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.3-amd64.deb" && sudo dpkg -i ./slack-desktop-4.4.3-amd64.deb && rm slack-desktop-4.4.3-amd64.deb
 
