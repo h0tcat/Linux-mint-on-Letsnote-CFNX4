@@ -29,8 +29,6 @@ wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
 sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
 sudo apt update && sudo apt install -y atom
 
-# KeePassXC
-
 # Github Desktop
 cd ~/Downloads
 wget https://github.com/shiftkey/desktop/releases/download/release-2.5.3-linux1/GitHubDesktop-linux-2.5.3-linux1.deb
@@ -58,6 +56,15 @@ sudo apt install -y iptables-persistent
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
 sudo apt update && sudo apt install -y virtualbox-6.0
+
+##########
+# Snap
+##########
+sudo apt install snapd
+
+# KeePassXC
+sudo snap install keepassxc
+
 
 ##########
 #
