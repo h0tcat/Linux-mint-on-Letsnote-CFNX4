@@ -40,11 +40,16 @@ wget "https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.3-amd64.
 
 # TLP
 sudo apt install -y tlp tlp-rdw
+tlp start
 
 # Google Drive
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9EA4D6FCA5D37A5D1CA9C09AAD5F235DF639B041
+sudo sh -c "echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' > /etc/apt/sources.list.d/google-drive.list"
+sudo sh -c "echo 'deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' >> /etc/apt/sources.list.d/google-drive.list"
+sudo apt update && sudo apt install -y google-drive-ocamlfuse fuse
 
 # Poewrtop
-sudo apt install powertop
+sudo apt install powertop -y
 
 # hardinfo
 sudo apt install -y hardinfo
@@ -57,19 +62,24 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
 sudo apt update && sudo apt install -y virtualbox-6.0
 
+# KeePassXC
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv D89C66D0E31FEA2874EBD20561922AB60068FCD6
+sudo sh -c "echo 'deb http://ppa.launchpad.net/phoerious/keepassxc/ubuntu focal main'"
+sudo sh -c "echo 'deb-src http://ppa.launchpad.net/phoerious/keepassxc/ubuntu focal main'"
+sudo apt install -y keepassxc=2.5.4+dfsg.1-1~bpo10+1
+
 ##########
 # Snap
 ##########
-sudo apt install snapd
+#sudo apt install snapd
 
 # KeePassXC
-sudo snap install keepassxc
-
+#sudo snap install keepassxc
 
 ##########
-#
+# Google Drive Configuration
 ##########
-#google-drive-ocamlfuse
+google-drive-ocamlfuse
 # Make dirctory
 mkdir ~/GooglDrive
 # Mount Google Drive
