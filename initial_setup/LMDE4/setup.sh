@@ -44,8 +44,8 @@ tlp start
 
 # Google Drive
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9EA4D6FCA5D37A5D1CA9C09AAD5F235DF639B041
-sudo sh -c "echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' > /etc/apt/sources.list.d/google-drive.list"
-sudo sh -c "echo 'deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu xenial main' >> /etc/apt/sources.list.d/google-drive.list"
+sudo sh -c "echo 'deb http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu focal main' > /etc/apt/sources.list.d/google-drive.list"
+sudo sh -c "echo 'deb-src http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu focal main' >> /etc/apt/sources.list.d/google-drive.list"
 sudo apt update && sudo apt install -y google-drive-ocamlfuse fuse
 
 # Poewrtop
