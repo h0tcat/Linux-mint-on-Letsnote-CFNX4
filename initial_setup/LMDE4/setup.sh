@@ -9,10 +9,10 @@
 
 # non-freeレポジトリを追加
 apt-add-repository non-free && sudo apt update
-echo -e "deb http://ftp.jp.debian.org/debian/ bullseye main contrib non-free" >> /etc/apt/source.list
-echo -e "deb-src http://ftp.jp.debian.org/debian/ bullseye main contrib non-free" >> /etc/apt/source.list
 
-
+# TEST版（bullseye）を追加
+#echo -e "deb http://ftp.jp.debian.org/debian/ bullseye main contrib non-free" >> /etc/apt/source.list
+#echo -e "deb-src http://ftp.jp.debian.org/debian/ bullseye main contrib non-free" >> /etc/apt/source.list
 
 ##########
 # 日本語化
@@ -38,7 +38,7 @@ sudo apt install -y xserver-xorg-input-synaptics
 echo "# Touchpad Speed Configuration" | tee -a ~/.xinputrc
 echo $(xinput --set-prop $(echo $(xinput --list --short | grep -i touchpad) | sed -e 's/.\+id=\([0-9]\+\).\+$/\1/g') $(xinput ---list-props $(echo $(xinput --list --short | grep -i touchpad) | sed -e 's/.\+id=\([0-9]\+\).\+$/\1/g') | grep Constant | sed -e 's/.\+(\([0-9]\+\)).\+/\1/g') 7.5) | tee -a ~/.xinputrc
 
-# Synaptics Configuration activete CircularScrolling
+# CircularScrollingを有効化
 cp /usr/share/X11/xorg.conf.d/51-synaptics-quirks.conf ~/51-synaptics-quirks.conf.bk
 sudo echo -e "Section \"InputClass\"\n                Identifier \"touchpad catchall\"\n        Driver \"synaptics\"\n        Option \"LeftEdge\" \"1000\"\n        Option \"RightEdge\" \"5600\"\n        Option \"TopEdge\" \"1200\"\n        Option \"BottomEdge\" \"4800\"\n        MatchIsTouchPad \"on\"\n        Option \"CircularScrolling\" \"1\"\n        Option \"CircScrollTrigger\" \"0\"\n        Option \"CircularPad\" \"1\"\n        Option \"CoastingSpeed\" \"1\"\n        Option \"CoastingFunction\" \"40\"\nEndSection" /usr/share/X11/xorg.conf.d/51-synaptics-quirks.conf | sudo tee -a /usr/share/X11/xorg.conf.d/51-synaptics-quirks.conf
 
@@ -48,8 +48,7 @@ sudo echo -e "Section \"InputClass\"\n                Identifier \"touchpad catc
 # バックライトの輝度調整を有効化
 cp /etc/default/grub ~/grub.bk
 sudo su
-sed -i -e '/GRUB_CMDLINE_LINUX_DEFAULT=/s/".*"/"quiet splash acpi_backlight=video acpi_osi=!!"/g' /etc/default/grub | tee /etc/default/grub
-#echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_backlight=video acpi_osi=!!"' >> /etc/default/grub
+sed -i -e '/GRUB_CMDLINE_LINUX_DEFAULT=/s/".*"/"quiet splash acpi_backlight=video acpi_osi=!!"/g' /etc/default/grub | sudo tee /etc/default/grub
 update-grub
 
 # サウンド設定の修正
