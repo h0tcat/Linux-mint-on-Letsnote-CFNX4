@@ -48,13 +48,13 @@ sudo echo -e "Section \"InputClass\"\n                Identifier \"touchpad catc
 # バックライトの輝度調整を有効化
 cp /etc/default/grub ~/grub.bk
 sudo su
-sed -i -e '/GRUB_CMDLINE_LINUX_DEFAULT=/s/".*"/"quiet splash acpi_backlight=video acpi_osi=!!"/g' /etc/default/grub | sudo tee /etc/default/grub
+#sed -i -e '/GRUB_CMDLINE_LINUX_DEFAULT=/s/".*"/"quiet splash acpi_backlight=video acpi_osi=!!"/g' /etc/default/grub | sudo tee /etc/default/grub
 update-grub
 
 # サウンド設定の修正
 cp /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf ~/analog-output-speaker.conf.bk
-sed -i -e "/\[Element Headphone\]/{N;N;s/volume = off/volume = merge\noverride-map.1 = all\noverride-map.2 = all-left,all-right/g}" /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf | tee /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf
-sed -i -e "/\[Element Speaker\]/{N;N;N;s/volume = merge/volume = off/g}" /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf | tee /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf
+#sed -i -e "/\[Element Headphone\]/{N;N;s/volume = off/volume = merge\noverride-map.1 = all\noverride-map.2 = all-left,all-right/g}" /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf | tee /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf
+#sed -i -e "/\[Element Speaker\]/{N;N;N;s/volume = merge/volume = off/g}" /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf | tee /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf
 sudo pulseaudio -k && pulseaudio --start
 
 # pulseaudioの有効化（Bluetooth）
@@ -89,13 +89,14 @@ cd ~/Downloads
 wget https://github.com/shiftkey/desktop/releases/download/release-2.5.3-linux1/GitHubDesktop-linux-2.5.3-linux1.deb
 sudo dpkg -i ./GitHubDesktop*.deb
 sudo apt-get --fix-broken install -y
+rm ~/Downloads/GitHubDesktop*.deb
 
 # slack
 wget "https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.3-amd64.deb" && sudo dpkg -i ./slack-desktop-4.4.3-amd64.deb && rm slack-desktop-4.4.3-amd64.deb
 
 # TLP
 sudo apt install -y tlp tlp-rdw
-tlp start
+sudo tlp start
 
 # Google Drive
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9EA4D6FCA5D37A5D1CA9C09AAD5F235DF639B041
@@ -123,6 +124,13 @@ sudo sh -c "echo 'deb http://ppa.launchpad.net/phoerious/keepassxc/ubuntu focal 
 sudo sh -c "echo 'deb-src http://ppa.launchpad.net/phoerious/keepassxc/ubuntu focal main'"
 sudo apt install -y keepassxc=2.5.4+dfsg.1-1~bpo10+1
 
+# Visual Studio Code
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt update && sudo apt install -y code
+
+
 ##########
 # Snap
 ##########
@@ -138,7 +146,7 @@ google-drive-ocamlfuse
 # Make dirctory
 mkdir ~/GooglDrive
 # Mount Google Drive
-echo -e "# Mount Google Drive to HOME directory.\ngoogle-drive-ocamlfuse ~/GoogleDrive" >> ~/.profile
+echo "# Mount Google Drive to HOME directory.\ngoogle-drive-ocamlfuse ~/GoogleDrive" >> ~/.profile
 
 ##########
 # Python Environment
