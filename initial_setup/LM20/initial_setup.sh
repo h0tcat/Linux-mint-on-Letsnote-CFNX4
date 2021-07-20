@@ -1,4 +1,11 @@
 #!/bin/bash
+LANG=C xdg-user-dirs-gtk-update
+sudo ufw enable
+sudo add-apt-repository ppa:mikhailnov/pulseeffects
+
+sudo echo "deb https://qemu.weilnetz.de/debian/ testing contrib" > /etc/apt/sources.list.d/cygwin.list  
+cd /etc/apt/trusted.gpg.d && sudo wget https://qemu.weilnetz.de/debian/weilnetz.gpg
+sudo curl -s https://qemu.weilnetz.de/debian/gpg.key | sudo apt-key add -
 ##########
 # レポジトリを日本に切り替える
 ##########
@@ -12,15 +19,7 @@ sudo sed -i -e "/http:\/\/archive.ubuntu.com/ubuntu\/s/^/#/g" /etc/apt/sources.l
 # ソースの更新と更新パッケージの取得
 sudo apt update && sudo apt upgrade
 
-##########
-# 日本語化
-##########
-# 日本語化パッケージ
-sudo apt install -y language-pack-ja language-pack-gnome-ja fonts-takao-gothic fonts-takao-mincho fonts-takao-pgothic fonts-vlgothic fonts-ipafont-gothic fonts-ipafont-mincho libreoffice-l10n-ja libreoffice-help-ja firefox-locale-ja manpages-ja thunderbird-locale-ja ibus-mozc ibus-anthy kasumi ibus-gtk ibus-gtk3 poppler-data cmap-adobe-japan1 fcitx-mozc fcitx-anthy fcitx-frontend-qt5 fcitx-config-gtk fcitx-config-gtk2 fcitx-frontend-gtk2 fcitx-frontend-gtk3 mozc-utils-gui fcitx-frontend-qt4 fcitx-frontend-qt5 libfcitx-qt0 libfcitx-qt5-1
-sudo apt install -y fonts-migmix fonts-ipamj-mincho fonts-horai-umefont fonts-takao xfonts-mona fonts-kouzan-mouhitsu
-
 # デフォルトのIMEをfcitxに変更
-im-config -n fcitx
 
 # HOMEディレクトリを日本語化
 LANG=C xdg-user-dirs-gtk-update
@@ -31,7 +30,17 @@ LANG=C xdg-user-dirs-gtk-update
 # Synaptics Driverをインストール
 #sudo apt install xserver-xorg-input-synaptics-hwe-18.04
 sudo apt install -y xserver-xorg-input-synaptics
+sudo apt install -y pulseaudio pulseeffects  whois netdiscover git rustc libncurses-dev curl gufw curl git python3-pip nemo libboost-dev libgtk-3-dev libsdl2-dev curl git gufw python2-pip terminator
+sudo apt install -y ubuntu-unity-desktop
 
+sudo dpkg-reconfigure lightdm
+
+sudo snap install obs-studio
+sudo snap install clementine
+sudo snap install musescore --classic
+sudo snap install zoom-client
+
+sudo dpkg -i *.deb
 # xinput設定（トラックパッドの感度を下げる）
 echo "# Touchpad Speed Configuration" | tee -a ~/.xinputrc
 echo $(xinput --set-prop $(echo $(xinput --list --short | grep -i touchpad) | sed -e 's/.\+id=\([0-9]\+\).\+$/\1/g') $(xinput ---list-props $(echo $(xinput --list --short | grep -i touchpad) | sed -e 's/.\+id=\([0-9]\+\).\+$/\1/g') | grep Constant | sed -e 's/.\+(\([0-9]\+\)).\+/\1/g') 7.5) | tee -a ~/.xinputrc
@@ -43,12 +52,6 @@ sudo echo -e "Section \"InputClass\"\n                Identifier \"touchpad catc
 ##########
 # その他HW設定
 ##########
-# バックライトの輝度調整を有効化
-cp /etc/default/grub ~/grub.bk
-sudo su
-sed -i -e '/GRUB_CMDLINE_LINUX_DEFAULT=/s/".*"/"quiet splash acpi_backlight=video acpi_osi=!!"/g' /etc/default/grub | tee /etc/default/grub
-#echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_backlight=video acpi_osi=!!"' >> /etc/default/grub
-update-grub
 
 # サウンド設定の修正
 cp /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf ~/analog-output-speaker.conf.bk
@@ -65,10 +68,8 @@ sudo pactl load-module module-switch-on-connect
 ##########
 # システム設定
 ##########
-# vimのvi互換モードをOFF
-touch ~/.vimrc
-echo -e "set nocompatible\nset backspace=indent,eol,start" | tee -a ~/.vimrc
-sudo cp ~/.vimrc /root
+cp ./backups/.vimrc ~/
+sudo cp ./backups/.vimrc /root
 
 # HW時間を変更
 #sudo hwclock -D --systohc --localtime
@@ -80,15 +81,6 @@ sed -i -e "/^#\(Fallback\)\?NTP=/s/^#//" /etc/systemd/timesyncd.conf | sudo tee 
 sed -i -e "/^NTP=/s/$/ntp.nict.jp/" /etc/systemd/timesyncd.conf | sudo tee /etc/systemd/timesyncd.conf
 sed -i -e "/^FallbackNTP=/s/=.*$/ntp1.jst.mfeed.ad.jp ntp2.jst.mfeed.ad.jp ntp3.jst.mfeed.ad.jp/" /etc/systemd/timesyncd.conf | sudo tee /etc/systemd/timesyncd.conf
 
-##########
-# アプリのインストール
-##########
-# cd ~/download
-cd ~/Downloads
-
-# Google Chrome
-sudo echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list && wget https://dl.google.com/linux/linux_signing_key.pub && sudo apt-key add linux_signing_key.pub && sudo apt update && sudo apt install -y google-chrome-stable
-
 # preload
 sudo apt install -y preload
 sudo /etc/init.d/preload start
@@ -99,24 +91,6 @@ sudo apt install -y tlp tlp-rdw
 sudo tlp start
 sudo add-apt-repository ppa:linuxuprising/apps && sudo apt update && sudo apt install tlpui
 
-# powertop
-sudo apt install -y powertop
-
-# hardinfo
-sudo apt install -y hardinfo
-
-# iptables
-sudo apt install -y iptables-persistent
-
-# Slack
-wget "https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.3-amd64.deb" && sudo dpkg -i ./slack-desktop-4.4.3-amd64.deb && rm slack-desktop-4.4.3-amd64.deb
-
-# Atom
-#sudo add-apt-repository ppa:webupd8team/atom && sudo apt-get update && sudo apt-get install -y atom
-wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add - && sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list' && sudo apt update && sudo apt install -y atom
-
-# GitHub Desktop
-wget "https://github.com/shiftkey/desktop/releases/download/release-2.5.2-linux1/GitHubDesktop-linux-2.5.2-linux1.deb" && sudo dpkg -i GitHubDesktop-linux-2.5.2-linux1.deb && rm GitHubDesktop-linux-2.5.2-linux1.deb
 
 ##########
 # アプリインストール後の依存関係処理
@@ -124,26 +98,6 @@ wget "https://github.com/shiftkey/desktop/releases/download/release-2.5.2-linux1
 # Autofix broken
 sudo apt-get --fix-broken install
 
-##########
-# 開発環境インストール
-##########
-# python3
-sudo apt install -y python3 python3-pip
-
-##########
-# Pythonモジュール
-##########
-sudo pip3 install requests
-sudo pip3 install paramiko
-
-# 不要パッケージの削除
-sudo apt autoremove && sudo apt autoclean
-
-# ssh公開鍵を生成
-mkdir ~/.ssh
-ssh-keygen -t rsa
-
-# ========== MEMO ==========
 # id=のあとの数字を取り出す　10
 #$(echo $(xinput --list --short | grep -i touchpad) | sed -e 's/.\+id=\([0-9]\+\).\+$/\1/g')
 
